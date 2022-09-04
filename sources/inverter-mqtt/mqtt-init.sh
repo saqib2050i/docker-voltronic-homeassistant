@@ -17,11 +17,11 @@ registerTopic () {
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
         -i $MQTT_CLIENTID \
-        -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1/config" \
+        -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/$1/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_$1\",
             \"unit_of_measurement\": \"$2\",
-            \"state_topic\": \"$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1\",
+            \"state_topic\": \"$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/$1\",
             \"icon\": \"mdi:$3\"
         }"
 }
