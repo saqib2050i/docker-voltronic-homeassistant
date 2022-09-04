@@ -6,7 +6,7 @@ MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
 MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
 MQTT_USERNAME=`cat /etc/inverter/mqtt.json | jq '.username' -r`
 MQTT_PASSWORD=`cat /etc/inverter/mqtt.json | jq '.password' -r`
-MQTT_CLIENTID=`cat /etc/inverter/mqtt.json | jq '.clientid' -r`
+MQTT_CLIENTID=`cat /etc/inverter/mqtt.json | jq '.clientidsub' -r`
 
 while read rawcmd;
 do
