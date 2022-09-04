@@ -130,6 +130,8 @@ int main(int argc, char* argv[]) {
     float scc_voltage;
     int batt_discharge_current;
     char device_status[9];
+    int eeprom;
+    int batt_volt_offset;  
 
     // Reply2
     float grid_voltage_rating;
@@ -153,7 +155,7 @@ int main(int argc, char* argv[]) {
     int machine_type;
     int topology;
     int out_mode;
-    int parallel_max_num;
+    char parallel_max_num;
     float batt_redischarge_voltage;
 
     // Get command flag settings from the arguments (if any)
@@ -215,7 +217,7 @@ int main(int argc, char* argv[]) {
             if (reply1 && reply2 && warnings) {
 
                 // Parse and display values
-                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status);
+                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status, &batt_volt_offset, &eeprom, &pv_input_watts);
                 sscanf(reply2->c_str(), "%f %f %f %f %f %d %d %f %f %f %f %f %d %d %d %d %d %d %c %d %d %d %f",
                        &grid_voltage_rating, &grid_current_rating, &out_voltage_rating, &out_freq_rating, &out_current_rating, &out_va_rating, &out_watt_rating, &batt_rating, &batt_recharge_voltage, &batt_under_voltage, &batt_bulk_voltage, &batt_float_voltage, &batt_type, &max_grid_charge_current, &max_charge_current, &in_voltage_range, &out_source_priority, &charger_source_priority, &parallel_max_num, &machine_type, &topology, &out_mode, &batt_redischarge_voltage);
                 // There appears to be a discrepancy in actual DMM measured current vs what the meter is
@@ -226,16 +228,16 @@ int main(int argc, char* argv[]) {
                     printf("INVERTER: wattfactor from config is %.2f\n", wattfactor);
                 }
 
-                pv_input_current = pv_input_current * ampfactor;
+                //pv_input_current = pv_input_current * ampfactor;
 
                 // It appears on further inspection of the documentation, that the input current is actually
                 // current that is going out to the battery at battery voltage (NOT at PV voltage).  This
                 // would explain the larger discrepancy we saw before.
 
-                pv_input_watts = (scc_voltage * pv_input_current) * wattfactor;
+                //pv_input_watts = (scc_voltage * pv_input_current) * wattfactor;
 
                 // Calculate watt-hours generated per run interval period (given as program argument)
-                pv_input_watthour = pv_input_watts / (3600 / runinterval);
+                pv_input_watthour = (float)pv_input_watts / (3600 / runinterval);
                 load_watthour = (float)load_watt / (3600 / runinterval);
 
                 // Print as JSON (output is expected to be parsed by another tool...)
