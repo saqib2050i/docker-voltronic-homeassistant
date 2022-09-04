@@ -1,12 +1,12 @@
 {
-    "server": "[192.168.0.112]",
+    "server": "192.168.0.112",
     "port": "1883",
     "topic": "homeassistant",
-    "devicename": "voltronic",
+    "devicename": "UPS",		
     "username": "myhass",
     "password": "hassmyass",
-	"clientid": "voltronic_bd8041d0cdf131a6ba4e5b3360b8bc5a",
-	"clientidsub": "voltronic_sub_bd8041d0cdf131a6ba4e5b3360b8bc5a",
+    "clientid": "voltronic_bd8041d0cdf131a6ba4e5b3360b8bc5a",
+    "clientidsub": "voltronic_sub_bd8041d0cdf131a6ba4e5b3360b8bc5a",
     "influx": {
         "enabled": "false",
         "host": "http://[INFLUX_IP_OR_URL]:8086", 
