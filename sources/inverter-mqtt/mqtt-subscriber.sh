@@ -13,7 +13,7 @@ function subscribe () {
 }
 
     function reply () {
-    mosquitto_pub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -t "$MQTT_TOPIC/sensor/${MQTT_DEVICENAME}/reply" -q 1 -m "$*"
+    mosquitto_pub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/reply" -q 1 -m "$*"
 }
 subscribe | while read rawcmd; do
     echo "[$(date +%F+%T)] Incoming request send: [$rawcmd] to inverter."
