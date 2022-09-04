@@ -188,7 +188,7 @@ void cInverter::poll() {
 
         // Reading mode
         if (!ups_qmod_changed) {
-            if (query("QMOD", qmod)) {
+            if (query("QMOD")) {
                 SetMode(buf[1]);
                 ups_qmod_changed = true;
             }
