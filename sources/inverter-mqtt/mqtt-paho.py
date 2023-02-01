@@ -40,6 +40,8 @@ client.on_publish = on_publish
 #client.publish('test/paho/mqtt', 'Hello World!')
 
 def register_topic(client, name, unit_of_measurement, icon, device_class, entity_category):
+  #while True:     
+
     config_topic = "{}/sensor/{}/{}/config".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
     state_topic = "{}/sensor/{}/{}/state".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
     lwt_topic = "{}/{}/{}/LWT".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
@@ -64,12 +66,41 @@ def register_topic(client, name, unit_of_measurement, icon, device_class, entity
 
     client.publish(config_topic, payload=json.dumps(config_message), qos=0, retain=True)
     client.publish(lwt_topic, payload="online", qos=0, retain=True)
-    
-    register_topic(client, "AC_grid_frequency", "Hz", "current-ac", "frequency", "diagnostic")
-register_topic(client, "AC_out_voltage", "V", "power-plug", "voltage", "diagnostic")
-register_topic(client, "AC_out_frequency", "Hz", "current-ac", "frequency", "diagnostic")
+   #time.sleep(1) 
 
-
+registerTopic("Inverter_mode", "", "solar-power", "aqi", "", "config")                                        
+registerTopic("AC_grid_voltage", "V", "power-plug", "voltage", "", "diagnostic")
+registerTopic("AC_grid_frequency", "Hz", "current-ac", "frequency", "", "diagnostic")
+registerTopic("AC_out_voltage", "V", "power-plug", "voltage", "", "diagnostic")
+registerTopic("AC_out_frequency", "Hz", "current-ac", "frequency", "", "diagnostic")
+registerTopic("PV_in_voltage", "V", "solar-panel-large", "voltage", "", "config")
+registerTopic("PV_in_current", "A", "solar-panel-large", "current", "", "config")
+registerTopic("PV_in_watts", "W", "solar-panel-large", "power", "measurement", "config")
+registerTopic("PV_in_watthour", "Wh", "solar-panel-large", "energy", "measurement", "config")
+registerTopic("SCC_voltage", "V", "current-dc", "voltage", "", "diagnostic")
+registerTopic("Load_pct", "%", "brightness-percent", "power_factor", "", "config")
+registerTopic("Load_watt", "W", "chart-bell-curve", "power", "measurement", "config")
+registerTopic("Load_watthour", "Wh", "chart-bell-curve", "energy", "measurement", "config")
+registerTopic("Load_va", "VA", "chart-bell-curve", "apparent_power", "", "diagnostic")
+registerTopic("Bus_voltage", "V", "details", "voltage", "", "diagnostic")
+registerTopic("Heatsink_temperature", "C", "thermometer", "temperature", "", "diagnostic")
+registerTopic("Battery_capacity", "%", "battery-outline", "battery", "", "config")
+registerTopic("Battery_voltage", "V", "battery-outline", "voltage", "", "diagnostic")
+registerTopic("Battery_charge_current", "A", "current-dc", "current", "", "diagnostic")
+registerTopic("Battery_discharge_current", "A", "current-dc", "current", "", "diagnostic")
+registerTopic("Load_status_on", "", "power", "aqi", "", "config")
+registerTopic("SCC_charge_on", "", "power", "aqi", "", "config")
+registerTopic("AC_charge_on", "", "power", "aqi", "", "config")
+registerTopic("Battery_recharge_voltage", "V", "current-dc", "voltage", "", "diagnostic")
+registerTopic("Battery_under_voltage", "V", "current-dc", "voltage", "", "diagnostic")
+registerTopic("Battery_bulk_voltage", "V", "current-dc", "voltage", "", "diagnostic")
+registerTopic("Battery_float_voltage", "V", "current-dc", "voltage", "", "config")
+registerTopic("Max_grid_charge_current", "A", "current-ac", "current", "", "diagnostic")
+registerTopic("Max_charge_current", "A", "current-ac", "current", "", "diagnostic")
+registerTopic("Out_source_priority", "", "grid", "aqi", "", "config")
+registerTopic("Charger_source_priority", "", "solar-power", "aqi", "", "config")
+registerTopic("Battery_redischarge_voltage", "V", "battery-negative", "voltage", "", "diagnostic")
+registerTopic("Warnings", "", "", "aqi", "", "diagnostic")
 
 #client.loop_forever()
 
