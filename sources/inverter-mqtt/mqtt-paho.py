@@ -39,8 +39,8 @@ client.on_publish = on_publish
 # Publish a message to a topic
 #client.publish('test/paho/mqtt', 'Hello World!')
 
-def register_topic(client, name, unit_of_measurement, icon, device_class, entity_category):
-  #while True:     
+def register_topic(client, name, unit_of_measurement, icon, device_class, measurement_class, entity_category):
+  while True:     
 
     config_topic = "{}/sensor/{}/{}/config".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
     state_topic = "{}/sensor/{}/{}/state".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
@@ -66,7 +66,7 @@ def register_topic(client, name, unit_of_measurement, icon, device_class, entity
 
     client.publish(config_topic, payload=json.dumps(config_message), qos=0, retain=True)
     client.publish(lwt_topic, payload="online", qos=0, retain=True)
-   #time.sleep(1) 
+  time.sleep(1) 
 
 register_topic(client,"Inverter_mode", "", "solar-power", "aqi", "", "config")                                        
 register_topic(client,"AC_grid_voltage", "V", "power-plug", "voltage", "", "diagnostic")
