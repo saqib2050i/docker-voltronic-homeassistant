@@ -11,7 +11,10 @@ MQTT_CLIENTID = "ups_init"
 # Read the MQTT configuration from the JSON file
 with open('/etc/inverter/mqtt.json', 'r') as f:
     mqtt_config = json.load(f)
-
+    
+MQTT_TOPIC = mqtt_config['topic']
+MQTT_DEVICENAME = mqtt_config['devicename']
+MQTT_CLIENTID = "ups_init"
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
