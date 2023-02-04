@@ -6,7 +6,7 @@ export TERM=xterm
 # Init the mqtt server for the first time, then every 5 minutes
 # This will re-create the auto-created topics in the MQTT server if HA is restarted...
 
-watch -n 300 /opt/inverter-mqtt/mqtt-init.sh > /dev/null 2>&1 &
+nohup python3 /opt/inverter-mqtt/mqtt-init.py &
 
 # Run the MQTT Subscriber process in the background (so that way we can change the configuration on the inverter from home assistant)
 /opt/inverter-mqtt/mqtt-subscriber.sh &
