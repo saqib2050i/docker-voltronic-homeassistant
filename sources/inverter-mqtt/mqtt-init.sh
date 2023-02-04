@@ -17,7 +17,6 @@ registerTopic () {
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
         -i $MQTT_CLIENTID \
-        -r \
         -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/$1/config" \
         -m "{
             \"name\": \"$1\",
@@ -43,7 +42,6 @@ registerTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -r \
         -i $MQTT_CLIENTID \
         -t "UPS/$MQTT_DEVICENAME/$1/LWT" \
         -m online
@@ -57,7 +55,6 @@ registerInverterRawCMD () {
         -P "$MQTT_PASSWORD" \
         -i "$MQTT_CLIENTID" \
         -t "$MQTT_TOPIC/button/$MQTT_DEVICENAME/$2/$1/config" \
-        -r \
         -m "{
             \"name\": \""$1"_"$2"\",
             \"command_topic\": \"UPS/$MQTT_DEVICENAME/$1\",
@@ -80,7 +77,6 @@ registerInverterRawCMD () {
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
         -i $MQTT_CLIENTID \
-        -r \
         -t "UPS/$MQTT_DEVICENAME/$2/$1/LWT" \
         -m online
 
