@@ -7,9 +7,8 @@ RUN apt-get update && apt-get install -y \
         cmake \
         jq \
         nano \
-        python3-pip \
-        mosquitto-clients &&
-        pip3 install paho-mqtt
+        python3-paho-mqtt \
+        mosquitto-clients
 
 ADD sources/ /opt/
 ADD config/ /etc/inverter/
