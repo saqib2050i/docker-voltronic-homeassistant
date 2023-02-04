@@ -25,7 +25,7 @@ def on_publish(client, userdata, mid):
     
     
 # Create a MQTT client instance
-client = mqtt.Client(client_id="testingpaho")
+client = mqtt.Client(MQTT_CLIENTID)
 
 # Connect to the MQTT broker
 client.username_pw_set(mqtt_config['username'], mqtt_config['password'])
