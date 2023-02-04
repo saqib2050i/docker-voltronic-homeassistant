@@ -24,5 +24,5 @@ HEALTHCHECK \
     --retries=3 \
   CMD /opt/healthcheck
 
-WORKDIR /opt
+WORKDIR /opt/inverter-mqtt
 ENTRYPOINT ["/bin/bash", "/opt/inverter-mqtt/entrypoint.sh"]
