@@ -15,7 +15,7 @@ MQTT_TOPIC = "test"
 MQTT_DEVICENAME = config['devicename']
 MQTT_USERNAME = config['username']
 MQTT_PASSWORD = config['password']
-MQTT_CLIENTID = "testingpaho"
+MQTT_CLIENTID = "UPS-PUB"
 
 KEYS = [
     "Inverter_mode", 
