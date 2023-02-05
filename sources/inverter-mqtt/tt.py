@@ -31,7 +31,26 @@ KEYS = [
     "Load_watthour", 
     "Load_va", 
     "Battery_capacity", 
-    "Battery_voltage"
+    "Battery_voltage",
+    "Battery_charge_current",
+    "Battery_discharge_current",
+    "Load_status_on",
+    "Out_source_priority",
+    "Charger_source_priority",
+    "Battery_redischarge_voltage",
+    "AC_grid_frequency",
+    "SCC_voltage",
+    "Bus_voltage",
+    "Heatsink_temperature",
+    "SCC_charge_on",
+    "AC_charge_on",
+    "Battery_recharge_voltage",
+    "Battery_under_voltage",
+    "Battery_bulk_voltage",
+    "Battery_float_voltage",
+    "Max_grid_charge_current",
+    "Max_charge_current",
+    "Warnings"
 ]
 
 def on_connect(client, userdata, flags, rc):
@@ -51,17 +70,16 @@ def pushMQTTData(client, name, payload):
     
     client.publish(state_topic, payload)
 
-while True:
     
-    result = subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-1"], capture_output=True, text=True)
-    inverter_data = json.loads(result.stdout)
+result = subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-1"], capture_output=True, text=True)
+inverter_data = json.loads(result.stdout)
 
-    Inverter_mode = inverter_data.get('Inverter_mode')
+Inverter_mode = inverter_data.get('Inverter_mode')
     
-    for key in KEYS:
-        value = inverter_data.get(key)
-        if value is not None:
-            pushMQTTData(client, key, str(value))
+for key in KEYS:
+    value = inverter_data.get(key)
+    if value is not None:
+        pushMQTTData(client, key, str(value))
 
 
 client.loop_stop()
