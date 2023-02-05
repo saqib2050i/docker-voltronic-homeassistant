@@ -4,7 +4,7 @@ import time
 
 MQTT_TOPIC = mqtt_config['topic']
 MQTT_DEVICENAME = mqtt_config['devicename']
-MQTT_CLIENTID = "ups_init"
+MQTT_CLIENTID = "UPS_init"
 
 
 
