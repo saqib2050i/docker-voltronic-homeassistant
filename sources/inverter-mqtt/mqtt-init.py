@@ -2,11 +2,6 @@ import json
 import paho.mqtt.client as mqtt
 import time
 
-MQTT_TOPIC = mqtt_config['topic']
-MQTT_DEVICENAME = mqtt_config['devicename']
-MQTT_CLIENTID = "UPS_init"
-
-
 
 # Read the MQTT configuration from the JSON file
 with open('/etc/inverter/mqtt.json', 'r') as f:
