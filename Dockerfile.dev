@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
         mosquitto-clients
 
 ADD sources/ /opt/
-ADD config/ /etc/inverter/
+ADD /home/sakoii/ups/config/ /etc/inverter/
 
 RUN cd /opt/inverter-cli && \
     mkdir bin && cmake . && make && mv inverter_poller bin/
@@ -23,5 +23,5 @@ HEALTHCHECK \
     --retries=3 \
   CMD /opt/healthcheck
 
-WORKDIR /opt
+WORKDIR /opt/inverter-mqtt
 ENTRYPOINT ["/bin/bash", "/opt/inverter-mqtt/entrypoint.sh"]
