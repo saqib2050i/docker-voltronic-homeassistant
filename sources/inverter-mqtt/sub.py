@@ -18,10 +18,10 @@ def on_message(client, userdata, msg):
     print("Incoming request send: [{}] to inverter.".format(rawcmd))
     subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-r", rawcmd])
 
-client = mqtt.Client(client_id=MQTT_CLIENTID)
+client = mqtt.Client(MQTT_CLIENTID)
 client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
 client.on_message = on_message
-client.connect(MQTT_SERVER, MQTT_PORT)
+client.connect(MQTT_SERVER, int(MQTT_PORT), 600)
 client.subscribe("UPS/rwcmd", qos=1)
 
 client.loop_forever()
