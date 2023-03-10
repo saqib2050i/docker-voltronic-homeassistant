@@ -60,16 +60,16 @@ def on_connect(client, userdata, flags, rc):
 client = mqtt.Client(MQTT_CLIENTID)
 client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
 client.on_connect = on_connect
-client.connect(MQTT_SERVER, 1883, 60)
+client.connect(MQTT_SERVER, 1883, 600)
 client.loop_start()
 
 def pushMQTTData(client, name, payload):
     
-    state_topic = "test/sensor/{}/{}/state".format(MQTT_DEVICENAME, name)
+    state_topic = "UPS/sensor/{}/{}/state".format(MQTT_DEVICENAME, name)
 
     
     client.publish(state_topic, payload)
-
+    print(name, payload)
     
 result = subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-1"], capture_output=True, text=True)
 inverter_data = json.loads(result.stdout)
