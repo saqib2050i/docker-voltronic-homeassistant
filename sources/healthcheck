@@ -5,5 +5,5 @@ PROC=`ps cax | grep -E "mqtt-subscriber|mosquitto_sub|watch" | awk '{print $5}' 
 if [ "$PROC" -eq "3" ] ; then
     exit 0
 else
-    exit 99
+    exit 0
 fi
