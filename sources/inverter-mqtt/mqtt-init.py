@@ -13,7 +13,9 @@ MQTT_CLIENTID = "ups_init"
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
- #   client.subscribe("test/#")
+    client.publish(UPS/AEROX/LWT, payload="online", qos=0, retain=True)
+    client.will_set(UPS/AEROX/LWT, payload="offline", qos=2, retain=True)
+#client.subscribe("test/#")
 
 #def on_message(client, userdata, msg):
   #  print(msg.topic+" "+str(msg.payload))
@@ -27,7 +29,7 @@ client = mqtt.Client(MQTT_CLIENTID)
 
 # Connect to the MQTT broker
 client.username_pw_set(mqtt_config['username'], mqtt_config['password'])
-client.connect(mqtt_config['server'], int(mqtt_config['port']), 600)
+client.connect(mqtt_config['server'], int(mqtt_config['port']), 300)
 
 client.on_connect = on_connect
 #client.on_message = on_message
@@ -43,7 +45,7 @@ def register_topic(client, name, unit_of_measurement, icon, device_class, measur
 
     config_topic = "{}/sensor/{}/{}/config".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
     state_topic = "UPS/sensor/{}/{}/state".format(MQTT_DEVICENAME, name)
-    lwt_topic = "UPS/{}/{}/LWT".format(MQTT_DEVICENAME, name)
+    lwt_topic = "UPS/AEROX/LWT"
 
     config_message = {
         "name": name,
@@ -65,7 +67,7 @@ def register_topic(client, name, unit_of_measurement, icon, device_class, measur
 
 
     client.publish(config_topic, payload=json.dumps(config_message), qos=0, retain=False)
-    client.publish(lwt_topic, payload="online", qos=0, retain=False)
+    
 
 while True:
 
