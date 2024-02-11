@@ -12,13 +12,13 @@ services:
       dockerfile: Dockerfile.dev
 
 
-    container_name: voltronic-mqtt
+    container_name: ups
 
     privileged: true
     restart: always
 
-    volumes:
-        - ./config/:/etc/inverter/
+    #volumes:
+     #   - ./config/:/etc/inverter/
 
     devices:
     #  - "/dev/mem:/dev/mem"
