@@ -45,7 +45,7 @@ def register_topic(client, name, unit_of_measurement, icon, device_class, measur
 
     config_topic = "{}/sensor/{}/{}/config".format(MQTT_TOPIC, MQTT_DEVICENAME, name)
     state_topic = "UPS/sensor/{}/{}/state".format(MQTT_DEVICENAME, name)
-    lwt_topic = "UPS/AEROX/LWT"
+    lwt_topic = "UPS/{}/LWT".format(MQTT_DEVICENAME)
 
     config_message = {
         "name": name,
