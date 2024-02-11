@@ -70,16 +70,16 @@ def pushMQTTData(client, name, payload):
     
     client.publish(state_topic, payload)
     print(name, payload)
-    
-result = subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-1"], capture_output=True, text=True)
-inverter_data = json.loads(result.stdout)
+while True:  
+    result = subprocess.run(["/opt/inverter-cli/bin/inverter_poller", "-1"], capture_output=True, text=True)
+    inverter_data = json.loads(result.stdout)
 
-Inverter_mode = inverter_data.get('Inverter_mode')
+    Inverter_mode = inverter_data.get('Inverter_mode')
     
-for key in KEYS:
-    value = inverter_data.get(key)
-    if value is not None:
-        pushMQTTData(client, key, str(value))
-
+    for key in KEYS:
+        value = inverter_data.get(key)
+        if value is not None:
+            pushMQTTData(client, key, str(value))
+time.sleep(1)
 
 client.loop_stop()
