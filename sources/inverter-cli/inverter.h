@@ -37,7 +37,7 @@ class cInverter {
         string *GetQpigsStatus();
         string *GetWarnings();
         string *GetGeneralModel();
-        string *GetQflagStatus();
+        string *GetQflag();
         string *GetBatEqiStatus();
 
         int GetMode();
