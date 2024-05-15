@@ -15,6 +15,8 @@ cInverter::cInverter(std::string devicename) {
     warnings[0] = 0;
     mode = 0;
     generalmodel[0] = 0;
+    qflag[0] = 0;
+    qbeqi[0] = 0;
 
   
 }
@@ -29,6 +31,12 @@ string *cInverter::GetQpigsStatus() {
 string *cInverter::GetQpiriStatus() {
     m.lock();
     string *result = new string(status2);
+    m.unlock();
+    return result;
+}
+string *cInverter::GetBatEqiSatus() {
+    m.lock();
+    string *result = new string(qbeqi);
     m.unlock();
     return result;
 }
@@ -239,11 +247,29 @@ void cInverter::poll() {
         }
 	// Get any device GeneralModel...
         if (!ups_qgmn_changed) {
-            if (query("QGMN")) {
+            if (query("QMN")) {
                 m.lock();
                 strcpy(generalmodel, (const char*)buf+1);
                 m.unlock();
                 ups_qgmn_changed = true;
+            }
+        }
+	    // Get any device Device Flags...
+        if (!ups_qflag_changed) {
+            if (query("QFLAG")) {
+                m.lock();
+                strcpy(qflag, (const char*)buf+1);
+                m.unlock();
+                ups_qflag_changed = true;
+            }
+        }
+	    // Get any device Battery Equilization...
+        if (!ups_qbeqi_changed) {
+            if (query("QBEQI")) {
+                m.lock();
+                strcpy(qbeqi, (const char*)buf+1);
+                m.unlock();
+                ups_qbeqi_changed = true;
             }
         }
 
