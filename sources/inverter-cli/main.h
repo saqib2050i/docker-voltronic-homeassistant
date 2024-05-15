@@ -13,5 +13,7 @@ extern atomic_bool ups_qmod_changed;
 extern atomic_bool ups_qpiri_changed;
 extern atomic_bool ups_qpigs_changed;
 extern atomic_bool ups_qgmn_changed;
+extern atomic_bool ups_qflag_changed;
+extern atomic_bool ups_qbeqi_changed;
 
 #endif // ___MAIN_H
