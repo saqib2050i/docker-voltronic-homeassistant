@@ -45,6 +45,12 @@ string *cInverter::GetGeneralModel() {
     m.unlock();
     return result;
 }
+string *cInverter::GetQflag() {
+    m.lock();
+    string *result = new string(qflag);
+    m.unlock();
+    return result;
+}
 
 void cInverter::SetMode(char newmode) {
     m.lock();
