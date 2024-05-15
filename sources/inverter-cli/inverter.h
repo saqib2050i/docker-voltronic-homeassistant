@@ -13,6 +13,8 @@ class cInverter {
     char status1[1024];
     char status2[1024];
     char generalmodel[1024];
+    char qflag[1024];
+    char qbeqi[1024];
     char mode;
 
     std::string device;
@@ -35,6 +37,8 @@ class cInverter {
         string *GetQpigsStatus();
         string *GetWarnings();
         string *GetGeneralModel();
+        string *GetQflagStatus();
+        string *GetBatEqiStatus();
 
         int GetMode();
         void ExecuteCmd(const std::string cmd);
