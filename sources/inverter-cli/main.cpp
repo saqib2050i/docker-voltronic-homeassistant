@@ -33,6 +33,7 @@ atomic_bool ups_qmod_changed(false);
 atomic_bool ups_qpiri_changed(false);
 atomic_bool ups_qpigs_changed(false);
 atomic_bool ups_qpiws_changed(false);
+atomic_bool ups_qgmn_changed(false);
 atomic_bool ups_cmd_executed(false);
 
 
@@ -205,8 +206,9 @@ int main(int argc, char* argv[]) {
             string *reply1   = ups->GetQpigsStatus();
             string *reply2   = ups->GetQpiriStatus();
             string *warnings = ups->GetWarnings();
+            string *generalmodel = ups->GetGeneralModedl();
 
-            if (reply1 && reply2 && warnings) {
+            if (reply1 && reply2 && warnings && generalmodel) {
 
                 // Parse and display values
                 sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status, &batt_volt_offset, &eeprom, &pv_input_watts);
@@ -268,6 +270,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
                 printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
                 printf("  \"Warnings\":\"%s\"\n", warnings->c_str());
+                printf("  \"Model\":\"%s\"\n", generalmodel->c_str());
                 printf("}\n");
 
                 // Delete reply string so we can update with new data when polled again...
