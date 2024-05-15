@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
             string *reply2   = ups->GetQpiriStatus();
             string *warnings = ups->GetWarnings();
             string *generalmodel = ups->GetGeneralModel();
-            string *qflag = ups->GetQflagStatus();
+            string *qflag = ups->GetQflag();
             string *qbeqi = ups->GetBatEqiStatus();
 
             if (reply1 && reply2 && warnings && generalmodel && qflag && qbeqi) {
