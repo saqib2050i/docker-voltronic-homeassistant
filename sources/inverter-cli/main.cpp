@@ -34,6 +34,8 @@ atomic_bool ups_qpiri_changed(false);
 atomic_bool ups_qpigs_changed(false);
 atomic_bool ups_qpiws_changed(false);
 atomic_bool ups_qgmn_changed(false);
+atomic_bool ups_qflag_changed(false);
+atomic_bool ups_qbeqi_changed(false);
 atomic_bool ups_cmd_executed(false);
 
 
@@ -124,7 +126,11 @@ int main(int argc, char* argv[]) {
     int batt_discharge_current;
     char device_status[9];
     int eeprom;
-    int batt_volt_offset;  
+    int batt_volt_offset;
+    char device_status2[9]; 
+    int solar_feed_grid; 
+    int country; 
+    float solar_feed_grid_power;
 
     // Reply2
     float grid_voltage_rating;
@@ -150,6 +156,18 @@ int main(int argc, char* argv[]) {
     int out_mode;
     char parallel_max_num;
     float batt_redischarge_voltage;
+
+    //QBEQI
+    int battery_equalization; 
+    int equalization_time; 
+    int equalization_period; 
+    int equalization_max_current; 
+    int reserved1; 
+    float equalization_voltage; 
+    int reserved2;
+    int equalization_over_time; 
+    int equalization_active_status; 
+    int equalization_elapse_time;
 
     // Get command flag settings from the arguments (if any)
     InputParser cmdArgs(argc, argv);
@@ -196,24 +214,33 @@ int main(int argc, char* argv[]) {
             ups_status_changed = false;
         }
 
-        if (ups_qmod_changed && ups_qpiri_changed && ups_qpigs_changed) {
+        if (ups_qmod_changed && ups_qpiri_changed && ups_qpigs_changed && ups_qflag_changed && ups_qbeqi_changed) {
 
             ups_qmod_changed = false;
             ups_qpiri_changed = false;
             ups_qpigs_changed = false;
+            ups_qflag_changed = false;
+            ups_qbeqi_changed = false;
+
+
 
             int mode = ups->GetMode();
             string *reply1   = ups->GetQpigsStatus();
             string *reply2   = ups->GetQpiriStatus();
             string *warnings = ups->GetWarnings();
-            string *generalmodel = ups->GetGeneralModedl();
+            string *generalmodel = ups->GetGeneralModel();
+            string *qflag = ups->GetQflagStatus();
+            string *qbeqi = ups->GetBatEqiStatus();
 
-            if (reply1 && reply2 && warnings && generalmodel) {
+            if (reply1 && reply2 && warnings && generalmodel && qflag && qbeqi) {
 
                 // Parse and display values
-                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status, &batt_volt_offset, &eeprom, &pv_input_watts);
+                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f %s %d %d %f", 
+                    &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status1, &batt_volt_offset, &eeprom, &pv_input_watts, &device_status2, &solar_feed_grid, &country, &solar_feed_grid_power);
                 sscanf(reply2->c_str(), "%f %f %f %f %f %d %d %f %f %f %f %f %d %d %d %d %d %d %c %d %d %d %f",
                        &grid_voltage_rating, &grid_current_rating, &out_voltage_rating, &out_freq_rating, &out_current_rating, &out_va_rating, &out_watt_rating, &batt_rating, &batt_recharge_voltage, &batt_under_voltage, &batt_bulk_voltage, &batt_float_voltage, &batt_type, &max_grid_charge_current, &max_charge_current, &in_voltage_range, &out_source_priority, &charger_source_priority, &parallel_max_num, &machine_type, &topology, &out_mode, &batt_redischarge_voltage);
+                sscanf(qbeqi->c_str(), "%d %d %d %d %d %f %d %d %d %d", &battery_equalization, &equalization_time, &equalization_period, &equalization_max_current, &reserved1, &equalization_voltage, &reserved2, &equalization_over_time, &equalization_active_status, &equalization_elapse_time);
+
                 // There appears to be a discrepancy in actual DMM measured current vs what the meter is
                 // telling me it's getting, so lets add a variable we can multiply/divide by to adjust if
                 // needed.  This should be set in the config so it can be changed without program recompile.
@@ -266,11 +293,24 @@ int main(int argc, char* argv[]) {
                 printf("  \"Battery_float_voltage\":%.1f,\n", batt_float_voltage);
                 printf("  \"Max_grid_charge_current\":%d,\n", max_grid_charge_current);
                 printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+                
                 printf("  \"Out_source_priority\":%d,\n", out_source_priority);
                 printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
                 printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
                 printf("  \"Warnings\":\"%s\"\n", warnings->c_str());
                 printf("  \"Model\":\"%s\"\n", generalmodel->c_str());
+                printf("  \"Qflag\":\"%s\"\n", qflag->c_str());
                 printf("}\n");
 
                 // Delete reply string so we can update with new data when polled again...
