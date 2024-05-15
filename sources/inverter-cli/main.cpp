@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
 
                 // Parse and display values
                 sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f %s %d %d %f", 
-                    &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status1, &batt_volt_offset, &eeprom, &pv_input_watts, &device_status2, &solar_feed_grid, &country, &solar_feed_grid_power);
+                    &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status, &batt_volt_offset, &eeprom, &pv_input_watts, &device_status2, &solar_feed_grid, &country, &solar_feed_grid_power);
                 sscanf(reply2->c_str(), "%f %f %f %f %f %d %d %f %f %f %f %f %d %d %d %d %d %d %c %d %d %d %f",
                        &grid_voltage_rating, &grid_current_rating, &out_voltage_rating, &out_freq_rating, &out_current_rating, &out_va_rating, &out_watt_rating, &batt_rating, &batt_recharge_voltage, &batt_under_voltage, &batt_bulk_voltage, &batt_float_voltage, &batt_type, &max_grid_charge_current, &max_charge_current, &in_voltage_range, &out_source_priority, &charger_source_priority, &parallel_max_num, &machine_type, &topology, &out_mode, &batt_redischarge_voltage);
                 sscanf(qbeqi->c_str(), "%d %d %d %d %d %f %d %d %d %d", &battery_equalization, &equalization_time, &equalization_period, &equalization_max_current, &reserved1, &equalization_voltage, &reserved2, &equalization_over_time, &equalization_active_status, &equalization_elapse_time);
@@ -285,6 +285,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Battery_charge_current\":%d,\n", batt_charge_current);
                 printf("  \"Battery_discharge_current\":%d,\n", batt_discharge_current);
                 printf("  \"Load_status_on\":%c,\n", device_status[3]);
+                printf("  \"Charge_Status\":%c,\n", device_status[5]);
                 printf("  \"SCC_charge_on\":%c,\n", device_status[6]);
                 printf("  \"AC_charge_on\":%c,\n", device_status[7]);
                 printf("  \"Battery_recharge_voltage\":%.1f,\n", batt_recharge_voltage);
@@ -292,19 +293,22 @@ int main(int argc, char* argv[]) {
                 printf("  \"Battery_bulk_voltage\":%.1f,\n", batt_bulk_voltage);
                 printf("  \"Battery_float_voltage\":%.1f,\n", batt_float_voltage);
                 printf("  \"Max_grid_charge_current\":%d,\n", max_grid_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                
+                printf("  \"Battery_equalization\":%d,\n", battery_equalization);
+                printf("  \"Equalization_time\":%d,\n", equalization_time);
+                printf("  \"Equalization_period\":%d,\n", equalization_period);
+                printf("  \"Equalization_max_current\":%d,\n", equalization_max_current);
+                printf("  \"Reserved1\":%d,\n", reserved1);
+                printf("  \"Equalization_voltage\":%.2f,\n", equalization_voltage);
+                printf("  \"Reserved2\":%d,\n", reserved2);
+                printf("  \"Equalization_over_time\":%d,\n", equalization_over_time);
+                printf("  \"Equalization_active_status\":%d,\n", equalization_active_status);
+                printf("  \"Equalization_elapse_time\":%d,\n", equalization_elapse_time);
+                printf("  \"Solar_feed_grid\":%d,\n", solar_feed_grid);
+                printf("  \"Country\":%d,\n", country);
+                printf("  \"Solar_feed_grid_power\":%.2f,\n", solar_feed_grid_power);
+                printf("  \"Charge_to_float_Status\":%c,\n", device_status2[0]);
+                printf("  \"Switch_on\":%c,\n", device_status2[1]);
+                printf("  \"Dustprrof\":%c,\n", device_status2[2]);
                 printf("  \"Out_source_priority\":%d,\n", out_source_priority);
                 printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
                 printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
@@ -316,6 +320,9 @@ int main(int argc, char* argv[]) {
                 // Delete reply string so we can update with new data when polled again...
                 delete reply1;
                 delete reply2;
+                delete qbeqi;
+                delete warnings;
+                delete qflag;
 
                 if(runOnce) {
                     // Do once and exit instead of loop endlessly
