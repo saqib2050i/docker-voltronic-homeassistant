@@ -34,7 +34,7 @@ string *cInverter::GetQpiriStatus() {
     m.unlock();
     return result;
 }
-string *cInverter::GetBatEqiSatus() {
+string *cInverter::GetBatEqiStatus() {
     m.lock();
     string *result = new string(qbeqi);
     m.unlock();
