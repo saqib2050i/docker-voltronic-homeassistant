@@ -14,6 +14,8 @@ cInverter::cInverter(std::string devicename) {
     status2[0] = 0;
     warnings[0] = 0;
     mode = 0;
+    generalmodel[0] = 0;
+
   
 }
 
@@ -34,6 +36,12 @@ string *cInverter::GetQpiriStatus() {
 string *cInverter::GetWarnings() {
     m.lock();
     string *result = new string(warnings);
+    m.unlock();
+    return result;
+}
+string *cInverter::GetGeneralModel() {
+    m.lock();
+    string *result = new string(generalmodel);
     m.unlock();
     return result;
 }
@@ -182,7 +190,7 @@ bool cInverter::query(const char *cmd) {
 
 void cInverter::poll() {
     int n,j;
-    extern const int qpiri, qpiws, qmod, qpigs;
+    extern const int qpiri, qpiws, qmod, qpigs, qgmn;
 
     while (true) {
 
@@ -221,6 +229,15 @@ void cInverter::poll() {
                 strcpy(warnings, (const char*)buf+1);
                 m.unlock();
                 ups_qpiws_changed = true;
+            }
+        }
+	// Get any device GeneralModel...
+        if (!ups_qgmn_changed) {
+            if (query("QGMN")) {
+                m.lock();
+                strcpy(generalmodel, (const char*)buf+1);
+                m.unlock();
+                ups_qgmn_changed = true;
             }
         }
 
