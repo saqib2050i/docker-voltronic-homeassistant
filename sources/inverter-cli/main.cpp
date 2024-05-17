@@ -273,7 +273,10 @@ int main(int argc, char* argv[]) {
                 printf("  \"PV_in_current\":%.1f,\n", pv_input_current);
                 printf("  \"PV_in_watts\":%.1f,\n", pv_input_watts);
                 printf("  \"PV_in_watthour\":%.4f,\n", pv_input_watthour);
-                printf("  \"SCC_voltage\":%.4f,\n", scc_voltage);
+                printf("  \"Machine_Type\":%d,\n", machine_type);
+                printf("  \"Topology\":%d,\n", topology);
+                printf("  \"Out_Mode\":%d,\n", out_mode);
+                printf("  \"SCC_voltage\":%.2f,\n", scc_voltage);
                 printf("  \"Load_pct\":%d,\n", load_percent);
                 printf("  \"Load_watt\":%d,\n", load_watt);
                 printf("  \"Load_watthour\":%.4f,\n", load_watthour);
@@ -285,6 +288,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Battery_charge_current\":%d,\n", batt_charge_current);
                 printf("  \"Battery_discharge_current\":%d,\n", batt_discharge_current);
                 printf("  \"Load_status_on\":%c,\n", device_status[3]);
+                printf("  \"AC_or_PV_feed\":%c,\n", device_status[0]);
                 printf("  \"Charge_Status\":%c,\n", device_status[5]);
                 printf("  \"SCC_charge_on\":%c,\n", device_status[6]);
                 printf("  \"AC_charge_on\":%c,\n", device_status[7]);
