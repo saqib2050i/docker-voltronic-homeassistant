@@ -312,7 +312,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Solar_feed_grid_power\":%.2f,\n", solar_feed_grid_power);
                 printf("  \"Charge_to_float_Status\":%c,\n", device_status2[0]);
                 printf("  \"Switch_on\":%c,\n", device_status2[1]);
-                printf("  \"Dustprrof\":%c,\n", device_status2[2]);
+                printf("  \"Dustproof\":%c,\n", device_status2[2]);
                 printf("  \"Out_source_priority\":%d,\n", out_source_priority);
                 printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
                 printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
