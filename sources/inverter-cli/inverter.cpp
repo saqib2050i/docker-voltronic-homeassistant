@@ -88,44 +88,48 @@ int cInverter::GetMode() {
 
 bool cInverter::query(const char *cmd) {
   time_t started;
-  int fd;
-  int i = 0, n;
+    int fd;
+    int i=0, n;
 
-  fd = open(this->device.data(), O_RDWR | O_NONBLOCK);  // device is provided by program arg (usually /dev/hidraw0)
-  if (fd == -1) {
-    lprintf("DEBUG:  Unable to open device file (errno=%d %s)", errno, strerror(errno));
-    sleep(10);
-    return false;
-  }
+    fd = open(this->device.data(), O_RDWR | O_NONBLOCK);
+    if (fd == -1) {
+        lprintf("INVERTER: Unable to open device file (errno=%d %s)", errno, strerror(errno));
+        sleep(5);
+        return false;
+    }
 
-  // Once connected, set the baud rate and other serial config (Don't rely on this being correct on the system by default...)
-  speed_t baud = B2400;
 
-  // Speed settings (in this case, 2400 8N1)
-  struct termios settings;
-  tcgetattr(fd, &settings);
+    // Once connected, set the baud rate and other serial config (Don't rely on this being correct on the system by default...)
+    speed_t baud = B2400;
 
-  cfsetospeed(&settings, baud);      // baud rate
-  settings.c_cflag &= ~PARENB;       // no parity
-  settings.c_cflag &= ~CSTOPB;       // 1 stop bit
-  settings.c_cflag &= ~CSIZE;
-  settings.c_cflag |= CS8 | CLOCAL;  // 8 bits
-  // settings.c_lflag = ICANON;         // canonical mode
-  settings.c_oflag &= ~OPOST;        // raw output
+    // Speed settings (in this case, 2400 8N1)
+    struct termios settings;
+    tcgetattr(fd, &settings);
 
-  tcsetattr(fd, TCSANOW, &settings); // apply the settings
-  tcflush(fd, TCOFLUSH);
+    cfsetospeed(&settings, baud);      // baud rate
+    settings.c_cflag &= ~PARENB;       // no parity
+    settings.c_cflag &= ~CSTOPB;       // 1 stop bit
+    settings.c_cflag &= ~CSIZE;
+    settings.c_cflag |= CS8 | CLOCAL;  // 8 bits
+    // settings.c_lflag = ICANON;         // canonical mode
+    settings.c_oflag &= ~OPOST;        // raw output
 
-  // ---------------------------------------------------------------
+    tcsetattr(fd, TCSANOW, &settings); // apply the settings
+    tcflush(fd, TCOFLUSH);
 
-  // Generating CRC for a command
-  uint16_t crc = cal_crc_half((uint8_t*)cmd, strlen(cmd));
-  n = strlen(cmd);
-  memcpy(&buf, cmd, n);
-  lprintf("DEBUG:  Current CRC: %X %X", crc >> 8, crc & 0xff);
-  buf[n++] = crc >> 8;
-  buf[n++] = crc & 0xff;
-  buf[n++] = 0x0d;
+    // ---------------------------------------------------------------
+
+    // Generating CRC for a command
+    uint16_t crc = cal_crc_half((uint8_t*)cmd, strlen(cmd));
+    n = strlen(cmd);
+    memcpy(&buf, cmd, n);
+    lprintf("INVERTER: Current CRC: %X %X", crc >> 8, crc & 0xff);
+
+    buf[n++] = crc >> 8;
+    buf[n++] = crc & 0xff;
+    //buf[n++] = 0x0d;
+    buf[n++] = 0x0d; // '\r'
+    buf[n+1] = '\0'; // see workaround below
 
   // Send buffer in hex
   char messagestart[128];
