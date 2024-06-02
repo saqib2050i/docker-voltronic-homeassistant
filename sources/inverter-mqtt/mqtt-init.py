@@ -124,8 +124,8 @@ while True:
     register_topic(client, "Charge_to_float_Status", "", "battery-charging", "aqi", "", "diagnostic")
     register_topic(client, "Switch_on", "", "details", "aqi", "", "diagnostic")
     register_topic(client, "Dustproof", "", "details", "aqi", "", "diagnostic")
-    register_topic(client, "Qflag", "", "details", "", "", "diagnostic")
-    register_topic(client, "Model", "", "details", "", "", "diagnostic")
+    register_topic(client, "Qflag", "", "details", "null", "", "diagnostic")
+    register_topic(client, "Model", "", "details", "null", "", "diagnostic")
     time.sleep(300)
 
 
