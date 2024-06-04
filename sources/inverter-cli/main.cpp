@@ -297,6 +297,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Battery_bulk_voltage\":%.1f,\n", batt_bulk_voltage);
                 printf("  \"Battery_float_voltage\":%.1f,\n", batt_float_voltage);
                 printf("  \"Max_grid_charge_current\":%d,\n", max_grid_charge_current);
+                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
                 printf("  \"Battery_equalization\":%d,\n", battery_equalization);
                 printf("  \"Equalization_time\":%d,\n", equalization_time);
                 printf("  \"Equalization_period\":%d,\n", equalization_period);
